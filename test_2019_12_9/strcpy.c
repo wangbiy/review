@@ -15,7 +15,7 @@ char* my_strcpy(char* dest,const char* src)
 int main()
 {
 	char src[]="agcbvk";
-	char dest[]={0};
+	char dest[]="abcderghk";
 	char* ret=my_strcpy(dest,src);
 	printf("%s",ret);
 	printf("\n");
