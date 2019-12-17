@@ -133,37 +133,18 @@ void BinTree<T>::LevelOrder()
 	}
 }
 template <class T>
-int BinTree<T>::_GetNodeCount1(BTNode<T>* pRoot)
+int BinTree<T>::_GetNodeCount(BTNode<T>* pRoot)
 {
 	if(pRoot==nullptr)
 		return 0;
-	int left=_GetNodeCount1(pRoot->_pLeft);
-	int right=_GetNodeCount1(pRoot->_pRight);
+	int left=_GetNodeCount(pRoot->_pLeft);
+	int right=_GetNodeCount(pRoot->_pRight);
 	return left+right+1;
 }
 template <class T>
-int BinTree<T>::GetNodeCount1()
+int BinTree<T>::GetNodeCount()
 {
-	return _GetNodeCount1(_pRoot);
-}
-template <class T>
-int count=0;
-int BinTree<T>::_GetNodeCount2(BTNode<T>* pRoot)
-{
-	if(pRoot==nullptr)
-		return 0;
-	else
-	{
-		count++;
-		_GetNodeCount2(pRoot->_pLeft);
-		_GetNodeCount2(pRoot->_pRight);
-	}
-	return count;
-}
-template <class T>
-int BinTree<T>::GetNodeCount2()
-{
-	return _GetNodeCount2(_pRoot);
+	return _GetNodeCount(_pRoot);
 }
 template <class T>
 int BinTree<T>::_Height(BTNode<T>* pRoot)
@@ -254,7 +235,7 @@ int BinTree<T>::GetKLevelNodeCount(int k)
 	return _GetKLevelNodeCount(_pRoot,k);
 }
 template <class T>
-BTNode<T>* BinTree<T>::_Find(BTNode<T>* pRoot,const T v)
+BTNode<T>* BinTree<T>::_Find(BTNode<T>* pRoot,T v)
 {
 	if(pRoot==nullptr)
 		return nullptr;
@@ -269,7 +250,7 @@ BTNode<T>* BinTree<T>::_Find(BTNode<T>* pRoot,const T v)
 	}
 }
 template <class T>
-BTNode<T>* BinTree<T>::Find(const T v)
+BTNode<T>* BinTree<T>::Find(T v)
 {
 	return _Find(_pRoot,v);
 }

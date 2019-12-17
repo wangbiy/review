@@ -5,8 +5,8 @@ template <class T>
 class BTNode
 {
 	public:
-		BTNode<T>* _pLeft;
-		BTNode<T>* _pRight;
+		BTNode* _pLeft;
+		BTNode* _pRight;
 		T _data;
 		BTNode(const T data)
 			:_pLeft(nullptr)
@@ -18,10 +18,10 @@ template <class T>
 class BinTree
 {
 	public:
-		BinTree(T* array,size_t size)//构造函数
+		BinTree(T* array,int size,const T& invalid)//构造函数
 		{
-			size_t index=0;
-			_CreateBinTree(array,size,index);
+			int index=0;
+			_pRoot=_CreateBinTree(array,size,invalid,index);
 		}
 		BinTree(const BinTree<T>& t)//拷贝构造函数
 		{
@@ -35,15 +35,6 @@ class BinTree
 			}
 			return *this;
 		}
-		BTNode<T>* CopyBinTree(BTNode<T>* pRoot)//二叉树的拷贝
-		{
-			if(pRoot==nullptr)
-				return nullptr;
-			BTNode<T>* pNewRoot=new BTNode<T>(pRoot->_data);
-			pNewRoot->_pLeft=CopyBinTree(pRoot->_pLeft);
-			pNewRoot->_pRight=CopyBinTree(pRoot->_pRight);
-			return pNewRoot;
-		}
 		void _PreOrder(BTNode<T>* pRoot);
 		void _InOrder(BTNode<T>* pRoot);
 		void _PostOrder(BTNode<T>* pRoot);
@@ -54,10 +45,8 @@ class BinTree
 		void InOrderNor();
 		void PostOrderNor();
 		void LevelOrder();
-		int _GetNodeCount1(BTNode<T>* pRoot);
-		int GetNodeCount1();
-		int _GetNodeCount2(BTNode<T>* pRoot);
-		int GetNodeCount2();
+		int _GetNodeCount(BTNode<T>* pRoot);
+		int GetNodeCount();
 		int _Height(BTNode<T>* pRoot);
 		int Height();
 		int _GetLeafCount(BTNode<T>* pRoot);
@@ -82,6 +71,15 @@ class BinTree
 			_pRoot=nullptr;
 		}
 	public:
+		BTNode<T>* CopyBinTree(BTNode<T>* pRoot)//二叉树的拷贝
+		{
+			if(pRoot==nullptr)
+				return nullptr;
+			BTNode<T>* pNewRoot=new BTNode<T>(pRoot->_data);
+			pNewRoot->_pLeft=CopyBinTree(pRoot->_pLeft);
+			pNewRoot->_pRight=CopyBinTree(pRoot->_pRight);
+			return pNewRoot;
+		}
 		void DestroyBinTree(BTNode<T>* pRoot)
 		{
 			if(pRoot==nullptr)
@@ -90,16 +88,16 @@ class BinTree
 			DestroyBinTree(pRoot->_pRight);
 			delete pRoot;
 		}
-		BTNode<T>* _CreateBinTree(const T* array,size_t size,size_t& index)
+		BTNode<T>* _CreateBinTree(T* array,int size,const T& invalid,int& index)
 		{
 			BTNode<T>* pRoot=nullptr;
-			if(index<size && array[index]!='#')
+			if(index<size && array[index]!=invalid)
 			{
 				pRoot=new BTNode<T>(array[index]);
 				index++;
-				pRoot->_pLeft=_CreateBinTree(array,size,index);
+				pRoot->_pLeft=_CreateBinTree(array,size,invalid,index);
 				index++;
-				pRoot->_pRight=_CreateBinTree(array,size,index);
+				pRoot->_pRight=_CreateBinTree(array,size,invalid,index);
 			}
 			return pRoot;
 		}
