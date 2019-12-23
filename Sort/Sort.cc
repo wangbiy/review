@@ -153,6 +153,117 @@ void HeapSort(int* arr,int size)
 		heapify(arr,size-i-1,0);
 	}
 }
+//冒泡排序
+void BubbleSort(int* arr,int size)
+{
+	for(int i=0;i<size;++i)//趟数
+	{
+		int flag=0;
+		for(int j=0;j<size-i-1;++j)
+		{
+			if(arr[j]>arr[j+1])
+			{
+				swap(arr[j],arr[j+1]);
+				flag=1;
+			}
+		}
+			if(flag==0)
+				break;
+	}
+}
+//快速排序
+int Partition1(int* arr,int left,int right)
+{
+	int begin=left;
+	int end=right;
+	int pivot=arr[right];
+	while(begin<end)
+	{
+		while(begin<end && arr[begin]<=pivot)
+		{
+			begin++;
+		}
+		while(begin<end && arr[end]>=pivot)
+		{
+			end--;
+		}
+		swap(arr[begin],arr[end]);//这样小的一定在左边，大的一定在右边 
+	}
+	swap(arr[begin],arr[right]);//交换后基准值左边一定比他小，右边一定比他大
+	return begin;
+}
+int Partition2(int* arr,int left,int right)
+{
+	int begin=left;
+	int end=right;
+	int pivot=arr[right];
+	while(begin<end)
+	{
+		while(begin<end && arr[begin]<=pivot)
+		{
+			begin++;
+		}
+		arr[end]=arr[begin];
+		while(begin<end && arr[end]>=pivot)
+		{
+			end--;
+		}
+		arr[begin]=arr[end];
+	}
+	arr[begin]=pivot;
+    return begin;	
+}
+int Partition3(int* arr,int left,int right)
+{
+	int div=left;
+	for(int i=left;i<right;++i)
+	{
+		if(arr[i]>arr[right])
+		{
+			swap(arr[i],arr[div]);
+		}
+		else
+			div++;
+	}
+	swap(arr[div],arr[right]);
+	return div;
+}
+void QuickSortInternal1(int* arr,int left,int right)
+{
+	if(left>=right)
+		return;
+	int pivotindex=Partition1(arr,left,right);//分组
+	QuickSortInternal1(arr,left,pivotindex-1);
+	QuickSortInternal1(arr,pivotindex+1,right);
+}
+void QuickSortInternal2(int* arr,int left,int right)
+{
+	if(left>=right)
+		return;
+	int pivotindex=Partition2(arr,left,right);//分组
+	QuickSortInternal2(arr,left,pivotindex-1);
+	QuickSortInternal2(arr,pivotindex+1,right);
+}
+void QuickSortInternal3(int* arr,int left,int right)
+{
+	if(left>=right)
+		return;
+	int pivotindex=Partition3(arr,left,right);//分组
+	QuickSortInternal3(arr,left,pivotindex-1);
+	QuickSortInternal3(arr,pivotindex+1,right);
+}
+void QuickSort1(int* arr,int size)
+{
+	QuickSortInternal1(arr,0,size-1);
+}
+void QuickSort2(int* arr,int size)
+{
+	QuickSortInternal2(arr,0,size-1);
+}
+void QuickSort3(int* arr,int size)
+{
+	QuickSortInternal3(arr,0,size-1);
+}
 int main()
 {
 	int arr[]={1,8,7,9,10,0,24,76,2};
@@ -167,6 +278,14 @@ int main()
 	SelectSort3(arr,sizeof(arr)/sizeof(arr[0]));
 	Print(arr,sizeof(arr)/sizeof(arr[0]));
 	HeapSort(arr,sizeof(arr)/sizeof(arr[0]));
+	Print(arr,sizeof(arr)/sizeof(arr[0]));
+	BubbleSort(arr,sizeof(arr)/sizeof(arr[0]));
+	Print(arr,sizeof(arr)/sizeof(arr[0]));
+	QuickSort1(arr,sizeof(arr)/sizeof(arr[0]));
+	Print(arr,sizeof(arr)/sizeof(arr[0]));
+	QuickSort2(arr,sizeof(arr)/sizeof(arr[0]));
+	Print(arr,sizeof(arr)/sizeof(arr[0]));
+	QuickSort3(arr,sizeof(arr)/sizeof(arr[0]));
 	Print(arr,sizeof(arr)/sizeof(arr[0]));
 	return 0;
 }
