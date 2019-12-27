@@ -1,5 +1,6 @@
 #include <iostream>
 using namespace std;
+#include <string.h>
 void Print(int* arr,int size)
 {
 	for(int i=0;i<size;++i)
@@ -264,6 +265,78 @@ void QuickSort3(int* arr,int size)
 {
 	QuickSortInternal3(arr,0,size-1);
 }
+//归并排序
+void MergeData(int* arr,int left,int mid,int right,int* tmp)//按组排序
+{
+	int begin1=left;
+	int end1=mid;
+	int begin2=mid;
+	int end2=right;
+	int index=left;
+	while(begin1<end1 && begin2<end2)
+	{
+		if(arr[begin1]<=arr[begin2])
+			tmp[index++]=arr[begin1++];
+		else
+		    tmp[index++]=arr[begin2++];	
+	}
+	while(begin1<end1)
+	{
+		tmp[index++]=arr[begin1++];
+	}
+	while(begin2<end2)
+	{
+		tmp[index++]=arr[begin2++];
+	}
+	memcpy(arr+left,tmp+left,(right-left)*sizeof(arr[0]));
+}
+void _MergeSort(int* arr,int left,int right,int* tmp)
+{
+	if(left>=right-1)
+		return;
+	int mid=left+((right-left)>>1);
+	_MergeSort(arr,left,mid,tmp);
+	_MergeSort(arr,mid,right,tmp);
+	MergeData(arr,left,mid,right,tmp);
+}
+void MergeSort(int* arr,int size)
+{
+	int* tmp=new int[size+1];
+	_MergeSort(arr,0,size-1,tmp);
+	delete[] tmp;
+}
+#include <assert.h>
+//非比较排序
+void CountSort(int* arr,int size)
+{
+	int minvalue=arr[0];
+	int maxvalue=arr[0];
+	for(int i=1;i<size;++i)
+	{
+		if(arr[i]>maxvalue)
+			maxvalue=arr[i];
+		if(arr[i]<minvalue)
+		    minvalue=arr[i];
+	}
+	int range=(maxvalue-minvalue)+1;
+	int* temp=(int*)malloc(range*sizeof(int));
+	assert(temp);
+	memcpy(temp,0,range*sizeof(int));
+	for(int i=0;i<size;++i)
+	{
+		temp[arr[i]-minvalue]++;
+	}
+	int index=0;
+	for(int i=0;i<size;++i)
+	{
+		int count=temp[i];
+		while(count--)
+		{
+			arr[index++]=i+minvalue;
+		}
+	}
+	free(temp);
+}
 int main()
 {
 	int arr[]={1,8,7,9,10,0,24,76,2};
@@ -286,6 +359,10 @@ int main()
 	QuickSort2(arr,sizeof(arr)/sizeof(arr[0]));
 	Print(arr,sizeof(arr)/sizeof(arr[0]));
 	QuickSort3(arr,sizeof(arr)/sizeof(arr[0]));
+	Print(arr,sizeof(arr)/sizeof(arr[0]));
+	MergeSort(arr,sizeof(arr)/sizeof(arr[0]));
+	Print(arr,sizeof(arr)/sizeof(arr[0]));
+	CountSort(arr,sizeof(arr)/sizeof(arr[0]));
 	Print(arr,sizeof(arr)/sizeof(arr[0]));
 	return 0;
 }
