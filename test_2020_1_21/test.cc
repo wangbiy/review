@@ -1,0 +1,53 @@
+#include <iostream>
+using namespace std;
+#include <vector>
+class Solution 
+{
+	public:
+		//移除掉所有为val的元素，不能创建新的数组，在原地移除，使用快慢指针
+		int removeElement(vector<int>& nums, int val)
+		{
+			int i=0;
+			for(int j=0;j<nums.size();++j)
+			{
+				if(nums[j]!=val)
+				{
+					nums[i]=nums[j];
+					i++;
+				}
+			} 
+			return i;
+		}
+		//搜索指定元素
+		int searchInsert(vector<int>& nums, int target) 
+		{
+			int left=0;
+			int right=nums.size()-1;
+			while(left<=right)
+			{
+				int mid=left+(right-left)/2;
+				if(nums[mid]==target)
+					return mid;
+				else if(target>nums[mid])
+				{
+					left=mid+1;
+				}
+				else
+				{
+					right=mid-1;
+				}
+			} 
+			return left;  
+		}
+};
+int main()
+{
+	Solution s;
+	vector<int> nums{3,1,1,3};
+	int count=s.removeElement(nums,3);
+	cout<<count<<endl;
+	vector<int> arr{1,3,5,6};
+	int ret=s.searchInsert(arr,5);
+	cout<<ret<<endl;
+	return 0;
+}
