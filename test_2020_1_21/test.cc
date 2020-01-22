@@ -57,6 +57,26 @@ class Solution
 			} 
 			return true;
 		}
+		//回文数问题
+		bool isPalindrome(int x)
+		{
+			if(x<0)
+				return false;
+			long result=0;
+			int ret=x;
+			while(x!=0)
+			{
+				//逆转，判断与原数是否相同
+				int tmp=x%10;
+				x/=10;
+				result=result*10+tmp;
+			}
+			if(result==ret)
+				return true;
+			else
+				return false;
+		}
+
 };
 int main()
 {
@@ -72,6 +92,10 @@ int main()
 	if(s.canConstruct(ransomNote,magazine))
 		cout<<"可以找到"<<endl;
 	else
-		cout<<"不可以找到"<<endl;	
+		cout<<"不可以找到"<<endl;
+	if(s.isPalindrome(121))
+		cout<<"是回文数"<<endl;
+	else
+		cout<<"不是回文数"<<endl;	
 	return 0;
 }
