@@ -1,6 +1,8 @@
 #include <iostream>
 using namespace std;
 #include <vector>
+#include <unordered_map>
+#include <string>
 class Solution 
 {
 	public:
@@ -39,6 +41,22 @@ class Solution
 			} 
 			return left;  
 		}
+		//赎金信问题（杂志字符串是否可以组成ransomNote字符串）
+		bool canConstruct(string ransomNote, string magazine)    
+		{
+			unordered_map<char,int> map(26);//int表示字符个数
+			for(int i=0;i<magazine.size();++i)
+			{
+	            ++map[magazine[i]];
+	        }
+			for(int j=0;j<ransomNote.size();++j)
+			{
+				--map[ransomNote[j]];
+				if(map[ransomNote[j]]<0)
+					return false;
+			} 
+			return true;
+		}
 };
 int main()
 {
@@ -49,5 +67,11 @@ int main()
 	vector<int> arr{1,3,5,6};
 	int ret=s.searchInsert(arr,5);
 	cout<<ret<<endl;
+	string ransomNote = "aa";
+	string magazine = "aab";
+	if(s.canConstruct(ransomNote,magazine))
+		cout<<"可以找到"<<endl;
+	else
+		cout<<"不可以找到"<<endl;	
 	return 0;
 }
