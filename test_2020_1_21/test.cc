@@ -76,7 +76,24 @@ class Solution
 			else
 				return false;
 		}
-
+		//在字符串中找到最后一个单词返回它的长度
+		int LengthOfLastWord(string s)
+		{
+			if(s.size()==0)
+				return 0;
+			int count=0;
+			for(int i=s.size()-1;i>=0;--i)
+			{
+				if(s[i]!=' ')
+					count++;
+				else
+				{
+					if(count!=0)
+						break;
+				}
+			}
+			return count;
+		}
 };
 int main()
 {
@@ -96,6 +113,9 @@ int main()
 	if(s.isPalindrome(121))
 		cout<<"是回文数"<<endl;
 	else
-		cout<<"不是回文数"<<endl;	
+		cout<<"不是回文数"<<endl;
+	string str="hello world";
+	int size=s.LengthOfLastWord(str);
+	cout<<size<<endl;	
 	return 0;
 }
