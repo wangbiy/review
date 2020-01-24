@@ -94,6 +94,29 @@ class Solution
 			}
 			return count;
 		}
+		//长按键入问题
+		bool isLongPressedNamea(string name,string typed)
+		{
+			int i=0;
+			int j=0;
+			while(j<typed.size())
+			{
+				if(name[i]==typed[j])//如果相同，两个指针都往后走
+				{
+					i++;
+					j++;
+				}
+				else//否则，在typed中判断j指针当前所在位置的字符是否与前面的重复，如果重复，j指针向后走，否则直接返回false
+				{
+					if(typed[j]==typed[j-1])
+					{
+						j++;
+					}
+					else
+						return false;
+				}
+			}
+		}
 };
 int main()
 {
@@ -116,6 +139,14 @@ int main()
 		cout<<"不是回文数"<<endl;
 	string str="hello world";
 	int size=s.LengthOfLastWord(str);
-	cout<<size<<endl;	
+	cout<<size<<endl;
+	string name="alex";
+	string typed="aaleex";
+	if(s.isLongPressedNamea(name,typed))
+	{
+		cout<<":)"<<endl;
+	}	
+	else
+		cout<<":("<<endl;
 	return 0;
 }
