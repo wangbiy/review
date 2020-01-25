@@ -117,6 +117,7 @@ class Solution
 				}
 			}
 		}
+		//对非递减数组进行平方，结果也按照非递减顺序输出（要考虑负数）
 		vector<int> sortedSquares(vector<int>& A) 
 		{
 			int len=A.size();
@@ -142,6 +143,36 @@ class Solution
 			}
 			return arr;
 		}
+	private:
+		bool isAlpha(char ch)//判断是否是字母
+		{
+			if((ch>='A' && ch<='Z') || (ch>='a' && ch<='z'))
+				return true;
+			return false;  
+		}
+	public:
+		//仅仅反转字母
+		string reverseOnlyLetters(string S)
+		{
+			int left=0;
+			int right=S.size()-1;
+			while(left<right)
+			{
+				if(!isAlpha(S[left]))
+				{
+					left++;
+				}
+				else if(!isAlpha(S[right]))
+				{
+					right--;
+				}
+				else
+				{
+					swap(S[left++],S[right--]);
+				}
+			}
+			return S;
+		}
 };
 int main()
 {
@@ -149,22 +180,27 @@ int main()
 	vector<int> nums{3,1,1,3};
 	int count=s.removeElement(nums,3);
 	cout<<count<<endl;
+
 	vector<int> arr{1,3,5,6};
 	int ret=s.searchInsert(arr,5);
 	cout<<ret<<endl;
+
 	string ransomNote = "aa";
 	string magazine = "aab";
 	if(s.canConstruct(ransomNote,magazine))
 		cout<<"可以找到"<<endl;
 	else
 		cout<<"不可以找到"<<endl;
+
 	if(s.isPalindrome(121))
 		cout<<"是回文数"<<endl;
 	else
 		cout<<"不是回文数"<<endl;
+
 	string str="hello world";
 	int size=s.LengthOfLastWord(str);
 	cout<<size<<endl;
+
 	string name="alex";
 	string typed="aaleex";
 	if(s.isLongPressedNamea(name,typed))
@@ -173,6 +209,7 @@ int main()
 	}	
 	else
 		cout<<":("<<endl;
+
 	vector<int> A{-4,-1,0,3,10};
 	vector<int> B=s.sortedSquares(A);
 	for(auto e:B)
@@ -180,5 +217,9 @@ int main()
 		cout<<e<<",";
 	}
 	cout<<endl;
+
+	string S="ab-cd";
+	string string1=s.reverseOnlyLetters(S);
+	cout<<string1<<endl;
 	return 0;
 }
