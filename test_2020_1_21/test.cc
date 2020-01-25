@@ -117,6 +117,31 @@ class Solution
 				}
 			}
 		}
+		vector<int> sortedSquares(vector<int>& A) 
+		{
+			int len=A.size();
+			vector<int> arr(len);
+			int i=0;
+			int j=len-1;
+			int k=len-1;
+			while(k>=0)
+			{
+				int m=A[i]*A[i];
+				int n=A[j]*A[j];
+				if(m>n)
+				{
+					arr[k]=m;
+					i++;
+				}
+				else
+				{
+					arr[k]=n;
+					j--;
+				}
+				k--;
+			}
+			return arr;
+		}
 };
 int main()
 {
@@ -148,5 +173,12 @@ int main()
 	}	
 	else
 		cout<<":("<<endl;
+	vector<int> A{-4,-1,0,3,10};
+	vector<int> B=s.sortedSquares(A);
+	for(auto e:B)
+	{
+		cout<<e<<",";
+	}
+	cout<<endl;
 	return 0;
 }
