@@ -5,12 +5,13 @@ void Usage(string proc)
 }
 int main(int argc,char* argv[])
 {
-	if(argc!=3)
+	if(argc!=2)//由于不需要ip地址，因此命令行参数改为2个
 	{
 		Usage(argv[0]);
 		exit(1);
 	}
-	Server* sp=new Server(argv[1],atoi(argv[2]));
+	int port=atoi(argv[1]);
+	Server* sp=new Server(port);
 	sp->InitServer();
 	sp->Start();
 	delete sp;

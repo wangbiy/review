@@ -15,12 +15,11 @@ class Server
 {
 	private:
 		int listen_sock;
-		string ip;
+		//string ip;//可以不需要ip地址了
 		int port;
 	public:
-		Server(string _ip="127.0.0.1",int _port=8080)
+		Server(int _port=8080)
 			:listen_sock(-1)
-			 ,ip(_ip)
 			 ,port(_port)
 	{}
 		void InitServer()
@@ -35,7 +34,7 @@ class Server
 			struct sockaddr_in local;
 			local.sin_family=AF_INET;
 			local.sin_port=htons(port);
-			local.sin_addr.s_addr=inet_addr(ip.c_str());
+			local.sin_addr.s_addr=htonl(INADDR_ANY);//后面的IO接口使用的是recv和send，可以不需要Ip地址来运行服务端，这里将IP地址设为INADDR_ANY，其实为0,也不用原来的地址转换函数，使用htonl转为主机号
 			if(bind(listen_sock,(struct sockaddr*)& local,sizeof(local))<0)
 			{
 				cerr<<"listen error"<<endl;
@@ -55,12 +54,14 @@ class Server
 			char buf[1024];
 			while(1)
 			{
-				ssize_t s=read(sock,buf,sizeof(buf)-1);
+				//ssize_t s=read(sock,buf,sizeof(buf)-1);
+				ssize_t s=recv(sock,buf,sizeof(buf)-1,0);//使用这种IO接口可以在进行测试时不需要输入IP地址，直接使用端口号运行服务端
 				if(s>0)
 				{
 					buf[s]=0;
 					cout<<"client#"<<buf<<endl;
-					write(sock,buf,strlen(buf));
+					//write(sock,buf,strlen(buf));
+					send(sock,buf,strlen(buf),0);
 				}
 				else if(s==0)
 				{
